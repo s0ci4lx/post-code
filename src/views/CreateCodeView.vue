@@ -25,12 +25,19 @@ const saveCode = async () => {
       params: { code: code.value }, // ส่งพารามิเตอร์ผ่าน URL
     });
 
-    code.value = ""; // ล้างฟอร์ม
-    
+    // ตรวจสอบสถานะการตอบกลับ
+    if (response.data.status === "success") {
+      message.value = "Code saved successfully!";
+      messageClass.value = "text-green-500";
+      code.value = ""; // ล้างฟอร์ม
+    } else {
+      message.value = `Error: ${response.data.message}`;
+      messageClass.value = "text-red-500";
+    }
 
   } catch (error) {
     // จัดการข้อผิดพลาด
-    console.log(error)
+    console.log(error);
   }
 };
 </script>
@@ -38,9 +45,7 @@ const saveCode = async () => {
 <template>
   <div class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
-      <h1 class="text-2xl font-bold mb-4 text-gray-800">
-        Save your code
-      </h1>
+      <h1 class="text-2xl font-bold mb-4 text-gray-800">Save your code</h1>
       <form @submit.prevent="saveCode" class="space-y-4">
         <!-- Textarea -->
         <div>
@@ -64,6 +69,13 @@ const saveCode = async () => {
         </button>
       </form>
       <!-- Message -->
+      <div
+        v-if="message"
+        :class="messageClass"
+        class="mt-4 text-center text-sm"
+      >
+        {{ message }}
+      </div>
     </div>
   </div>
 </template>
