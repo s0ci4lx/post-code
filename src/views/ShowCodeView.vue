@@ -33,7 +33,7 @@ const copyCode = async (code) => {
     return;
   }
 
-  btnCopy.value = "Copied";
+  btnCopy.value = "✓ Copied";
   try {
     await navigator.clipboard.writeText(code);
     setTimeout(() => {
@@ -55,25 +55,32 @@ onMounted(() => {
 </script>
 
 <template>
-  <div class="mockup-code m-8">
-    <div class="code-area px-12">
-      <!-- แสดงสถานะ Loading หรือ Error -->
-      <div v-if="loading" class="text-center text-gray-500">Loading...</div>
-      <div v-if="errorMessage" class="text-center text-red-500">
-        {{ errorMessage }}
-      </div>
+  <div class="relative ">
+    <div class="ms-8 mt-8">
 
-      <!-- แสดงโค้ด -->
-      <pre v-else data-prefix="Code:"><br /><code>{{ codetext }}</code></pre>
-
-      <!-- ปุ่มคัดลอก -->
       <button
         @click="copyCode(codetext)"
         type="button"
-        class="absolute top-1 right-1 text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
+        class="stikey text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
         {{ btnCopy }}
       </button>
+    </div>
+
+    <div class="mockup-code ms-8 mt-2 me-8">
+      <div class="code-area px-12">
+        <!-- แสดงสถานะ Loading หรือ Error -->
+        <div v-if="loading" class="text-center text-gray-500">Loading...</div>
+        <div v-if="errorMessage" class="text-center text-red-500">
+          {{ errorMessage }}
+        </div>
+
+        <!-- แสดงโค้ด -->
+        <pre v-else data-prefix="Code:"><br /><code>{{ codetext }}
+  
+        </code>
+      </pre>
+      </div>
     </div>
   </div>
 </template>
