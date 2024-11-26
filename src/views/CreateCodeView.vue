@@ -46,7 +46,7 @@ const saveCode = async () => {
   <div class="bg-gray-100 min-h-screen flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
       <h1 class="text-2xl font-bold mb-4 text-gray-800">
-        ทดสอบ Deploy
+        Save your code
       </h1>
       <form @submit.prevent="saveCode" class="space-y-4">
         <!-- Textarea -->

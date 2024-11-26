@@ -3,26 +3,41 @@ import { ref, onMounted } from "vue";
 
 const codetext = ref(""); // เก็บข้อความโค้ดที่ดึงมาจาก Google Sheet
 const btnCopy = ref("Copy");
-const WEB_APP_URL = "https://script.google.com/macros/s/AKfycbyzYo2TdOwW4Q58tb4jK2p8votEZf_xnlvyFUfqwYze6NiqrFJ-gQFyQ7M1d_ym3mfH/exec"; // ใส่ URL ของ Apps Script Web App
+const loading = ref(true); // สถานะโหลดข้อมูล
+const errorMessage = ref(""); // ข้อความแสดงข้อผิดพลาด
+const WEB_APP_URL =
+  "https://script.google.com/macros/s/AKfycbyzYo2TdOwW4Q58tb4jK2p8votEZf_xnlvyFUfqwYze6NiqrFJ-gQFyQ7M1d_ym3mfH/exec"; // ใส่ URL ของ Apps Script Web App
 
 // ฟังก์ชันสำหรับดึงข้อมูลจาก Google Sheet
 const fetchCode = async () => {
   try {
+    loading.value = true;
     const response = await fetch(WEB_APP_URL);
     const result = await response.json();
 
     if (result.status === "success") {
       codetext.value = result.code; // อัปเดตค่า codetext จากข้อมูลใน Google Sheet
+      errorMessage.value = "";
     } else {
-      console.error("Error fetching code:", result.message);
+      errorMessage.value = `Error: ${result.message}`;
     }
   } catch (error) {
-    console.error("Error fetching code:", error.message);
+    errorMessage.value = `Error fetching code: ${error.message}`;
+  } finally {
+    loading.value = false;
   }
 };
 
 // ฟังก์ชันคัดลอกข้อความ
 const copyCode = async (code) => {
+  if (!code) {
+    btnCopy.value = "No code to copy";
+    setTimeout(() => {
+      btnCopy.value = "Copy";
+    }, 3000);
+    return;
+  }
+
   btnCopy.value = "Copied";
   try {
     await navigator.clipboard.writeText(code);
@@ -30,7 +45,11 @@ const copyCode = async (code) => {
       btnCopy.value = "Copy";
     }, 3000);
   } catch (err) {
+    btnCopy.value = "Failed to copy";
     console.log("Error", err);
+    setTimeout(() => {
+      btnCopy.value = "Copy";
+    }, 3000);
   }
 };
 
@@ -43,7 +62,14 @@ onMounted(() => {
 <template>
   <div class="mockup-code m-8">
     <div class="code-area px-12">
-      <pre data-prefix="Code:"><br /><code>{{ codetext }}</code></pre>
+      <!-- แสดงสถานะ Loading หรือ Error -->
+      <div v-if="loading" class="text-center text-gray-500">Loading...</div>
+      <div v-if="errorMessage" class="text-center text-red-500">{{ errorMessage }}</div>
+
+      <!-- แสดงโค้ด -->
+      <pre v-else data-prefix="Code:"><br /><code>{{ codetext }}</code></pre>
+
+      <!-- ปุ่มคัดลอก -->
       <button
         @click="copyCode(codetext)"
         type="button"
