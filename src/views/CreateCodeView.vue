@@ -25,19 +25,12 @@ const saveCode = async () => {
       params: { code: code.value }, // ส่งพารามิเตอร์ผ่าน URL
     });
 
-    // ตรวจสอบสถานะการตอบกลับ
-    if (response.data.status === "success") {
-      message.value = "Code saved successfully!";
-      messageClass.value = "text-green-500";
-      code.value = ""; // ล้างฟอร์ม
-    } else {
-      message.value = `Error: ${response.data.message}`;
-      messageClass.value = "text-red-500";
-    }
+    code.value = ""; // ล้างฟอร์ม
+    
+
   } catch (error) {
     // จัดการข้อผิดพลาด
-    message.value = `Network error: ${error.message}`;
-    messageClass.value = "text-red-500";
+    console.log(error)
   }
 };
 </script>
