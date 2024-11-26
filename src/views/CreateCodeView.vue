@@ -43,12 +43,12 @@ const saveCode = async () => {
 </script>
 
 <template>
-  <div class="bg-gray-100 min-h-screen flex items-center justify-center">
+  <div class="bg-gradient-to-r from-sky-500 to-indigo-500 min-h-screen flex items-center justify-center">
     <div class="bg-white p-6 rounded-lg shadow-lg w-full max-w-2xl">
       <h1 class="text-2xl font-bold mb-4 text-gray-800">Save your code</h1>
       <form @submit.prevent="saveCode" class="space-y-4">
         <!-- Textarea -->
-        <div>
+        <div >
           <label for="codeInput" class="block text-gray-700 font-medium mb-2">
             Paste your code here:
           </label>
@@ -56,14 +56,14 @@ const saveCode = async () => {
             id="codeInput"
             v-model="code"
             rows="10"
-            class="w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-blue-300 focus:outline-none"
+            class="h-96 w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-blue-300 focus:outline-none "
             placeholder="Enter your code here..."
           ></textarea>
         </div>
         <!-- Save Button -->
         <button
           type="submit"
-          class="w-full bg-blue-600 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
+          class="w-full bg-gradient-to-r from-purple-500 to-pink-500 text-white py-2 px-4 rounded-lg hover:bg-blue-700 focus:outline-none focus:ring focus:ring-blue-300"
         >
           Save
         </button>
