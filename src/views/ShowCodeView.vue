@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios"; // นำเข้า axios
-import 'highlight.js/styles/github.css'; // ใช้ธีมจาก Highlight.js
+import 'highlight.js/styles/monokai-sublime.min.css'; // ใช้ธีมจาก Highlight.js
 const codetext = ref(""); // เก็บข้อความโค้ดที่ดึงมาจาก Google Sheet
 const btnCopy = ref("Copy");
 const loading = ref(true); // สถานะโหลดข้อมูล
@@ -68,7 +68,7 @@ onMounted(() => {
     </div>
 
     <div class="mockup-code ms-8 mt-2 mb-2 me-8">
-      <div class="code-area px-12">
+      <div class="code-area ps-6">
         <!-- แสดงสถานะ Loading หรือ Error -->
         <div v-if="loading" class="text-center text-gray-500">Loading...</div>
         <div v-if="errorMessage" class="text-center text-red-500">
@@ -76,7 +76,7 @@ onMounted(() => {
         </div>
 
         <!-- แสดงโค้ด -->
-        <pre v-if="!loading"><code class="language-javascript" v-highlight>{{ codetext }}
+        <pre v-if="!loading" v-highlightjs><code class="language-javascript">{{ codetext }}
   
         </code>
       </pre>
@@ -86,10 +86,5 @@ onMounted(() => {
 </template>
 <style scoped>
 /* ใช้ Tailwind CSS สำหรับจัดสไตล์เพิ่มเติม */
-pre {
-  @apply bg-gray-800 text-white p-4 rounded-lg;
-}
-code {
-  @apply font-mono text-sm;
-}
+
 </style>
