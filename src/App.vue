@@ -1,6 +1,6 @@
 <script setup>
-import { ref, watchEffect, onMounted } from 'vue'
-import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
+
+import { RouterView } from 'vue-router'
 </script>
 <template>
 
@@ -8,5 +8,6 @@ import { RouterLink, RouterView, useRouter, useRoute } from 'vue-router'
     
     <RouterView />
   </main>
+ 
 
 </template>

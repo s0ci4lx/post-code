@@ -1,7 +1,7 @@
 <script setup>
 import { ref, onMounted } from "vue";
 import axios from "axios"; // นำเข้า axios
-
+import 'highlight.js/styles/github.css'; // ใช้ธีมจาก Highlight.js
 const codetext = ref(""); // เก็บข้อความโค้ดที่ดึงมาจาก Google Sheet
 const btnCopy = ref("Copy");
 const loading = ref(true); // สถานะโหลดข้อมูล
@@ -57,17 +57,17 @@ onMounted(() => {
 <template>
   <div class="relative ">
     <div class="ms-8 mt-8">
-
+      
       <button
         @click="copyCode(codetext)"
         type="button"
         class="stikey text-white bg-gradient-to-r from-green-400 via-green-500 to-green-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-green-300 dark:focus:ring-green-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
       >
-        {{ btnCopy }}
+      <font-awesome-icon icon="fa-regular fa-copy" v-show="btnCopy == 'Copy'" /> {{ btnCopy }}
       </button>
     </div>
 
-    <div class="mockup-code ms-8 mt-2 me-8">
+    <div class="mockup-code ms-8 mt-2 mb-2 me-8">
       <div class="code-area px-12">
         <!-- แสดงสถานะ Loading หรือ Error -->
         <div v-if="loading" class="text-center text-gray-500">Loading...</div>
@@ -76,7 +76,7 @@ onMounted(() => {
         </div>
 
         <!-- แสดงโค้ด -->
-        <pre v-else data-prefix="Code:"><br /><code>{{ codetext }}
+        <pre v-if="!loading"><code class="language-javascript" v-highlight>{{ codetext }}
   
         </code>
       </pre>
@@ -84,3 +84,12 @@ onMounted(() => {
     </div>
   </div>
 </template>
+<style scoped>
+/* ใช้ Tailwind CSS สำหรับจัดสไตล์เพิ่มเติม */
+pre {
+  @apply bg-gray-800 text-white p-4 rounded-lg;
+}
+code {
+  @apply font-mono text-sm;
+}
+</style>
