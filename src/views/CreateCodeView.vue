@@ -20,12 +20,10 @@ const saveCode = async () => {
   }
 
   try {
-    // ส่งคำขอผ่าน axios
     const response = await axios.get(WEB_APP_URL, {
       params: { code: code.value }, // ส่งพารามิเตอร์ผ่าน URL
     });
 
-    // ตรวจสอบสถานะการตอบกลับ
     if (response.data.status === "success") {
       message.value = "Code saved successfully!";
       messageClass.value = "text-green-500";
@@ -34,10 +32,10 @@ const saveCode = async () => {
       message.value = `Error: ${response.data.message}`;
       messageClass.value = "text-red-500";
     }
-
   } catch (error) {
-    // จัดการข้อผิดพลาด
-    console.log(error);
+    console.error(error);
+    message.value = "An error occurred while saving the code.";
+    messageClass.value = "text-red-500";
   }
 };
 </script>
@@ -48,7 +46,7 @@ const saveCode = async () => {
       <h1 class="text-2xl font-bold mb-4 text-gray-800">Save your code</h1>
       <form @submit.prevent="saveCode" class="space-y-4">
         <!-- Textarea -->
-        <div >
+        <div>
           <label for="codeInput" class="block text-gray-700 font-medium mb-2">
             Paste your code here:
           </label>
@@ -56,7 +54,7 @@ const saveCode = async () => {
             id="codeInput"
             v-model="code"
             rows="10"
-            class="h-96 w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-blue-300 focus:outline-none "
+            class="h-96 w-full border border-gray-300 rounded-lg p-3 focus:ring focus:ring-blue-300 focus:outline-none"
             placeholder="Enter your code here..."
           ></textarea>
         </div>

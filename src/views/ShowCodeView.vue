@@ -68,7 +68,7 @@ onMounted(() => {
     </div>
 
     <div class="mockup-code ms-8 mt-2 mb-2 me-8">
-      <div class="code-area ps-6">
+      <div class="code-area ps-5">
         <!-- แสดงสถานะ Loading หรือ Error -->
         <div v-if="loading" class="text-center text-gray-500">Loading...</div>
         <div v-if="errorMessage" class="text-center text-red-500">
