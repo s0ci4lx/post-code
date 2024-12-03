@@ -1,41 +1,21 @@
 <script setup>
-import { ref } from "vue";
-import { RouterLink } from "vue-router";
-import { auth, provider, signInWithPopup, signOut } from "../firebase";
+import { useAuthStore } from '../stores/authStore'; // นำเข้า authStore
 
-const user = ref(null); // เก็บสถานะผู้ใช้
+const authStore = useAuthStore(); // ใช้ Pinia store
 
-// ฟังก์ชันสำหรับล็อกอิน
-const loginWithGoogle = async () => {
-  try {
-    const result = await signInWithPopup(auth, provider);
-    user.value = result.user; // บันทึกข้อมูลผู้ใช้งาน
-  } catch (error) {
-    console.error("Login failed:", error);
-  }
-};
-
-// ฟังก์ชันสำหรับล็อกเอาท์
-const logout = async () => {
-  try {
-    await signOut(auth);
-    user.value = null; // เคลียร์สถานะผู้ใช้
-  } catch (error) {
-    console.error("Logout failed:", error);
-  }
-};
 </script>
 
 <template>
-  <div class="mockup-browser h-64 m-8 bg-base-300 border ">
-    <div class="mockup-browser-toolbar ">
+  
+  <div class="mockup-browser h-64 m-8 bg-base-300 border">
+    <div class="mockup-browser-toolbar">
       <div class="input">https://get-code.netlify.app/</div>
       <label class="grid cursor-pointer place-items-center ps-2">
         <input
           type="checkbox"
           value="cmyk"
           class="toggle theme-controller bg-base-content col-span-2 col-start-1 row-start-1" />
-          <svg
+        <svg
           class="stroke-base-100 fill-base-100 col-start-2 row-start-1"
           xmlns="http://www.w3.org/2000/svg"
           width="14"
@@ -65,7 +45,7 @@ const logout = async () => {
         </svg>
       </label>
     </div>
-    
+
     <div class="join lg:join-horizontal flex items-center justify-center mt-5">
       <!-- ปุ่ม Get Code -->
       <RouterLink :to="{ name: 'code' }">
@@ -75,10 +55,7 @@ const logout = async () => {
       </RouterLink>
 
       <!-- ปุ่ม Save Code -->
-      <RouterLink
-        v-if="user"
-        :to="{ name: 'CreateCode' }"
-      >
+      <RouterLink v-if="authStore.user" :to="{ name: 'CreateCode' }">
         <button class="btn btn-warning join-item">
           <font-awesome-icon icon="fa-regular fa-floppy-disk" /> Save Code
         </button>
@@ -86,15 +63,15 @@ const logout = async () => {
 
       <!-- ปุ่ม Login/Logout -->
       <button
-        v-if="!user"
-        @click="loginWithGoogle"
+        v-if="!authStore.user"
+        @click="authStore.loginWithGoogle"
         class="btn btn-secondary join-item"
       >
         <font-awesome-icon icon="fa-solid fa-right-to-bracket" /> Login
       </button>
       <button
         v-else
-        @click="logout"
+        @click="authStore.logout"
         class="btn btn-error join-item"
       >
         <font-awesome-icon icon="fa-solid fa-right-from-bracket" /> Logout

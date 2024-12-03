@@ -71,8 +71,7 @@ const saveCode = async () => {
         v-if="message"
         :class="messageClass"
         class="mt-4 text-center text-sm"
-      >
-        {{ message }}
+        v-text="message"
       </div>
     </div>
   </div>
