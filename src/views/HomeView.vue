@@ -30,7 +30,7 @@ const logout = async () => {
   <div class="mockup-browser h-64 m-8 bg-base-300 border ">
     <div class="mockup-browser-toolbar ">
       <div class="input">https://get-code.netlify.app/</div>
-      <label class="grid cursor-pointer place-items-center">
+      <label class="grid cursor-pointer place-items-center ps-2">
         <input
           type="checkbox"
           value="cmyk"
